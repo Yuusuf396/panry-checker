@@ -6,7 +6,12 @@ import styles from "./InputComponent.module.css"
 import { useEffect } from 'react';
 const InputComponent = () => {
     const [inputValue,setInputValue]=useState("")
-    const [items,setItems]=useState([])
+    // const [items,setItems]=useState([])
+    const [items, setItems] = useState(() => {
+        const savedItems = localStorage.getItem('items');
+        return savedItems ? JSON.parse(savedItems) : [];
+      });
+    
     const [search,setSearch]=useState("")
 
     // const handleSearch=()=>{
@@ -42,7 +47,7 @@ const InputComponent = () => {
             console.log(inputValue.trim());
             setItems([...items, inputValue]);
             console.log([...items, inputValue]);
-            // localStorage.setItem( [...items, inputValue]);
+            // localStorage.setItem("item",[...items, inputValue]);
             setInputValue(''); // Clear the input field after adding
           }
         
@@ -51,6 +56,7 @@ const InputComponent = () => {
     
     useEffect(() => {
         console.log('Items:', items);
+        localStorage.setItem('items', JSON.stringify(items));
       }, [items]);
     
   return (
